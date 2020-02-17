@@ -38,22 +38,23 @@ export const onTipClick = function onTipClick(d) {
 
 export const onBranchHover = function onBranchHover(d) {
   if (d.visibility !== NODE_VISIBLE) return;
+  console.log(d)
   /* emphasize the color of the branch */
-  for (const id of [getDomId("#branchS", d.n.name), getDomId("#branchT", d.n.name)]) {
-    if (this.props.colorByConfidence) {
-      this.state.tree.svg.select(id)
-        .style("stroke", (el) => { // eslint-disable-line no-loop-func
-          const entropyValue = getTraitFromNode(this.props.tree.nodes[el.n.arrayIdx], this.props.colorBy, {entropy: true});
-          const ramp = branchOpacityFunction(entropyValue);
-          const raw = this.props.tree.nodeColors[el.n.arrayIdx];
-          const base = el.branchStroke;
-          return rgb(interpolateRgb(raw, base)(ramp)).toString();
-        });
-    } else {
-      this.state.tree.svg.select(id)
-        .style("stroke", (el) => this.props.tree.nodeColors[el.n.arrayIdx]);
-    }
-  }
+  // for (const id of [getDomId("#branchS", d.n.name), getDomId("#branchT", d.n.name)]) {
+  //   if (this.props.colorByConfidence) {
+  //     this.state.tree.svg.select(id)
+  //       .style("stroke", (el) => { // eslint-disable-line no-loop-func
+  //         const entropyValue = getTraitFromNode(this.props.tree.nodes[el.n.arrayIdx], this.props.colorBy, {entropy: true});
+  //         const ramp = branchOpacityFunction(entropyValue);
+  //         const raw = this.props.tree.nodeColors[el.n.arrayIdx];
+  //         const base = el.branchStroke;
+  //         return rgb(interpolateRgb(raw, base)(ramp)).toString();
+  //       });
+  //   } else {
+  //     this.state.tree.svg.select(id)
+  //       .style("stroke", (el) => this.props.tree.nodeColors[el.n.arrayIdx]);
+  //   }
+  // }
   if (this.props.temporalConfidence.exists && this.props.temporalConfidence.display && !this.props.temporalConfidence.on) {
     const tree = d.that.params.orientation[0] === 1 ? this.state.tree : this.state.treeToo;
     if (!("confidenceIntervals" in tree.groups)) {
@@ -71,6 +72,7 @@ export const onBranchHover = function onBranchHover(d) {
 };
 
 export const onBranchClick = function onBranchClick(d) {
+  return;
   if (d.visibility !== NODE_VISIBLE) return;
   if (this.props.narrativeMode) return;
   const root = [undefined, undefined];
@@ -102,10 +104,10 @@ export const onBranchClick = function onBranchClick(d) {
 
 /* onBranchLeave called when mouse-off, i.e. anti-hover */
 export const onBranchLeave = function onBranchLeave(d) {
-  for (const id of [getDomId("#branchT", d.n.name), getDomId("#branchS", d.n.name)]) {
-    this.state.tree.svg.select(id)
-      .style("stroke", (el) => el.branchStroke);
-  }
+  // for (const id of [getDomId("#branchT", d.n.name), getDomId("#branchS", d.n.name)]) {
+  //   this.state.tree.svg.select(id)
+  //     .style("stroke", (el) => el.branchStroke);
+  // }
   if (this.props.temporalConfidence.exists && this.props.temporalConfidence.display && !this.props.temporalConfidence.on) {
     const tree = d.that.params.orientation[0] === 1 ? this.state.tree : this.state.treeToo;
     tree.removeConfidence();

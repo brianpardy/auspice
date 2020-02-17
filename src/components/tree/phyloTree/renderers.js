@@ -171,6 +171,31 @@ export const drawBranches = function drawBranches() {
   }
 
   /* PART 2: draw the branch stems (i.e. the actual branches) */
+  if (!this.groups.branchGradientDefs) {
+    this.groups.branchGradientDefs = this.svg.append("defs");
+  }
+  this.groups.branchGradientDefs.selectAll("*").remove();
+  const gradients = {};
+  this.nodes.forEach((d) => {
+    const a = d.parent.branchStroke;
+    const b = d.branchStroke;
+    if (a===b) return;
+    const id = `${d.parent.n.arrayIdx}:${d.n.arrayIdx}`;
+    if (gradients[id]) return;
+    const linearGradient = this.groups.branchGradientDefs.append("linearGradient")
+      .attr("id", id)
+      .attr("x1", "0%")
+      .attr("x2", "100%")
+      .attr("y1", "0%")
+      .attr("y2", "0%");
+    linearGradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", a);
+    linearGradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", b);
+  });
+
   if (!("branchStem" in this.groups)) {
     this.groups.branchStem = this.svg.append("g").attr("id", "branchStem");
   }
@@ -178,14 +203,24 @@ export const drawBranches = function drawBranches() {
     .selectAll('.branch')
     .data(this.nodes)
     .enter()
-      .append("path")
+      .append("rect")
+        .attr("x", (d) => d.branch[2][0])
+        .attr("y", (d) => d.branch[2][1]-0.5*(d['stroke-width'] || params.branchStrokeWidth))
+        .attr("width", (d) => d.branch[2][2] - d.branch[2][0])
+        .attr("height", (d) => d['stroke-width']+"px" || params.branchStrokeWidth)
         .attr("class", "branch S")
         .attr("id", (d) => getDomId("branchS", d.n.name))
         .attr("d", (d) => d.branch[0])
-        .style("stroke", (d) => d.branchStroke || params.branchStroke)
-        .style("stroke-linecap", "round")
-        .style("stroke-width", (d) => d['stroke-width']+"px" || params.branchStrokeWidth)
-        .style("fill", "none")
+        .style("fill", (d) => {
+          if (!d.branchStroke) return params.branchStroke;
+          if (d.branchStroke === d.parent.branchStroke) {
+            return d.branchStroke;
+          }
+          return `url(#${d.parent.n.arrayIdx}:${d.n.arrayIdx})`;
+        })
+        // .style("stroke-linecap", "round")
+        // .style("stroke-width", (d) => d['stroke-width']+"px" || params.branchStrokeWidth)
+        .style("stroke", "none")
         .style("visibility", getBranchVisibility)
         .style("cursor", (d) => d.visibility === NODE_VISIBLE ? "pointer" : "default")
         .style("pointer-events", "auto")
