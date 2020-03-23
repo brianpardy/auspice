@@ -2,9 +2,31 @@
 title: Changelog
 ---
 
+## version 2.9.1 - 2020/03/23
+
+
+## version 2.9.0 - 2020/03/23
+
+
+* Add language support for auspice! Currently we have an incomplete translation of the strings into
+Spanish, but we can now begin to crowd-source translations. [See PR 953](https://github.com/nextstrain/auspice/pull/953)
+* Add shebang to shell scripts. [See PR 962](https://github.com/nextstrain/auspice/pull/962)
+* Add styling to tables in narratives. [See PR 966](https://github.com/nextstrain/auspice/pull/966)
+* Improve accessiblity of slide-dots in narratives. [See PR 972](https://github.com/nextstrain/auspice/pull/972)
+* Fix typo in readme. [See PR 963](https://github.com/nextstrain/auspice/pull/963)
+* Improve file modes in docs. [See PR 964](https://github.com/nextstrain/auspice/pull/964)
+* Fix broken links in docs. [See PR 967](https://github.com/nextstrain/auspice/pull/967)
+* Linting fixes. [See PR 931](https://github.com/nextstrain/auspice/pull/931)
+
+## version 2.8.1 - 2020/03/20
+* Fix bug in dependencies which could prevent auspice from being built
+
+## version 2.8.0 - 2020/03/20
+* Allow right-to-left text in narratives [See PR 960](https://github.com/nextstrain/auspice/pull/960)
+* Introduce a testing framework. [See PR 943](https://github.com/nextstrain/auspice/pull/943)
+* Modify byline for SARS-CoV-2 datasets when viewed on nextstrain.org
+
 ## version 2.7.0 - 2020/03/15
-
-
 * Add axis labels to the tree. [See PR 942](https://github.com/nextstrain/auspice/pull/942)
 * Fix a bug where the map would jump to an incorrect view position in narratives. [See PR 950](https://github.com/nextstrain/auspice/pull/950)
 * Do not display "github.com" in the built-by byline (link is unchanged). [See PR 949](https://github.com/nextstrain/auspice/pull/949)
